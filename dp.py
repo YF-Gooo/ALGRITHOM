@@ -155,7 +155,7 @@ class Solution:
 # hold[i][k]和cash[i]][k]代表了在时间到达i时，可以进行k笔交易！！！！注意是可以进行k笔交易，不是强制k笔交易
 # hold[1][3]=hold[1][2]=hold[1][1],因为在时间1时，你最多只能交易1笔,就算你有交易三笔的次数条件，但也只能交易一笔
 class Solution:
-    def maxProfit(self, k: int, prices: List[int]) -> int:
+    def maxProfit(self, k, prices) :
         if not k or not prices: 
             return 0
         if k > len(prices) >> 1: 
@@ -168,7 +168,6 @@ class Solution:
             for j in range(1, k+1):
                 cash[i][j] = max(cash[i-1][j], hold[i-1][j]+prices[i-1])
                 hold[i][j] = max(hold[i-1][j], cash[i-1][j-1]-prices[i-1])
-        print(hold[0])
         return cash[-1][k]
 
 
@@ -381,6 +380,8 @@ class Solution:
                     if dp[j] > largest:
                         largest = dp[j]
         return largest
+
+
 
 # O(nlogn)解法
 import bisect
