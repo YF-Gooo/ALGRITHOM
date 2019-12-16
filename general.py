@@ -21,7 +21,7 @@ def reverse_linklist_pairs(head):
         pre = a 
     return dummy
 
-# 3SUM
+# 15. 3Sum https://leetcode.com/problems/3sum/
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         if len(nums)<3:
@@ -445,7 +445,7 @@ class Solution(object):
                     res+=v-1
         return res
 
-# 数组和矩阵：https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/description/
+# 378. Kth Smallest Element in a Sorted Matrix //leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/description/
 # matrix = [
 #    [ 1,  5,  9],
 #    [10, 11, 13],
@@ -630,56 +630,7 @@ class Solution:
             self.done=1
         self.inorder(root.right)
 
-# Trie（208）：https://leetcode.com/problems/implement-trie-prefix-tree/description/
-class Trie:
 
-    def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.root={}
-        self.end_of_words="#"
-        
-
-    def insert(self, word: str) -> None:
-        """
-        Inserts a word into the trie.
-        """
-        node=self.root
-        for c in word:
-            if c not in node:
-                node = node.setdefault(c,{})
-            else:
-                node = node[c]
-        node[self.end_of_words]=self.end_of_words
-        
-
-    def search(self, word: str) -> bool:
-        """
-        Returns if the word is in the trie.
-        """
-        node=self.root
-        for c in word:
-            if c not in node:
-                return False
-            else:
-                node = node[c]
-        if self.end_of_words in node:
-            return True
-        else:
-            return False
-
-    def startsWith(self, prefix: str) -> bool:
-        """
-        Returns if there is any word in the trie that starts with the given prefix.
-        """
-        node=self.root
-        for c in prefix:
-            if c not in node:
-                return False
-            else:
-                node = node[c]
-        return True
 
 # 二分图（785）：https://leetcode.com/problems/is-graph-bipartite/description/
 # 需要重点看看
@@ -731,29 +682,7 @@ class Solution:
         self.visited[course] = 1
         return True
 
-# 并查集（684）：https://leetcode.com/problems/redundant-connection/description/
-# Input: [[1,2], [2,3], [3,4], [1,4], [1,5]]
-# Output: [1,4]
-# Explanation: The given undirected graph will be like this:
-# 5 - 1 - 2
-#     |   |
-#     4 - 3
-class Solution:
-    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        self.p = {x:x for x in range(1,len(edges)+1)}
-        for x, y in edges:
-            if self.union(x,y): 
-                return [x, y]
-            
-    def find(self,x):
-        if self.p[x] != x: 
-            self.p[x] = self.find(self.p[x])
-        return self.p[x]
 
-    def union(self, x, y):
-        if self.find(x) == self.find(y): 
-            return True
-        self.p[self.find(x)] = self.find(y)
 
 # BFS（279）：https://leetcode.com/problems/perfect-squares/description/
 class Solution:
@@ -980,28 +909,82 @@ class Solution:
                 if j >=num:
                     dp[j]=dp[j] or dp[j-num]
         return dp[s]
-# 股票交易（309）：https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/description/
 
-# 字符串编辑（583）：https://leetcode.com/problems/delete-operation-for-two-strings/description/
-class Solution(object):
-    def minDistance(self, word1, word2):
-            """
-            :type word1: str
-            :type word2: str
-            :rtype: int
-            """
-            dp = [[0]*(len(word2)+1) for _ in range(len(word1)+1) ]
-            for i in range(len(word2)+1):
-                dp[0][i]=i
-            for i in range(len(word1)+1):
-                dp[i][0] =i
 
-            for i in range(1,len(word1)+1):
-                for j in range(1,len(word2)+1):
-                    if word1[i-1]==word2[j-1]:
-                        dp[i][j] = dp[i-1][j-1]
-                    else:
-                        dp[i][j] = min(dp[i-1][j], dp[i][j-1])+1
 
-            return dp[-1][-1]
+# LRUCache https://leetcode.com/problems/lru-cache/submissions/
+import collections
+class LRUCache:
 
+    def __init__(self, capacity: int):
+        self.dic=collections.OrderedDict()
+        self.remain = capacity
+        
+
+    def get(self, key: int) -> int:
+        if key not in self.dic:
+            return -1
+        v= self.dic.pop(key)
+        self.dic[key]=v
+        return v
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.dic:
+            self.dic.pop(key)
+        else:
+            if self.remain>0:
+                self.remain -=1
+            else:
+                self.dic.popitem(last=False)
+        self.dic[key]=value
+
+# Trie（208）：https://leetcode.com/problems/implement-trie-prefix-tree/description/
+class Trie:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.root={}
+        self.end_of_words="#"
+        
+
+    def insert(self, word: str) -> None:
+        """
+        Inserts a word into the trie.
+        """
+        node=self.root
+        for c in word:
+            if c not in node:
+                node = node.setdefault(c,{})
+            else:
+                node = node[c]
+        node[self.end_of_words]=self.end_of_words
+        
+
+    def search(self, word: str) -> bool:
+        """
+        Returns if the word is in the trie.
+        """
+        node=self.root
+        for c in word:
+            if c not in node:
+                return False
+            else:
+                node = node[c]
+        if self.end_of_words in node:
+            return True
+        else:
+            return False
+
+    def startsWith(self, prefix: str) -> bool:
+        """
+        Returns if there is any word in the trie that starts with the given prefix.
+        """
+        node=self.root
+        for c in prefix:
+            if c not in node:
+                return False
+            else:
+                node = node[c]
+        return True

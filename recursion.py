@@ -244,3 +244,86 @@ class Solution:
             if board[3*(i//3)+x//3][3*(j//3)+x%3]!="." and board[3*(i//3)+x//3][3*(j//3)+x%3]==c:
                 return False
         return True
+
+# 212. Word Search II https://leetcode.com/problems/word-search-ii/
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        if not board:
+            return []
+        self.trie=Trie()
+        for w in words:
+            self.trie.insert(w)
+        self.res=set()
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                self.dfs(board,i,j,"")
+        return self.res
+    
+    def dfs(self,board,i,j,state):
+        if i<0 or i>=len(board):
+            return
+        if j<0 or j>=len(board[0]):
+            return
+        c=board[i][j]
+        if c ==".":
+            return 
+        if self.trie.search(state+c):
+            self.res.add(state+c)
+        if self.trie.startsWith(state+c):
+            board[i][j]="."
+            self.dfs(board,i+1,j,state+c)
+            self.dfs(board,i,j+1,state+c)
+            self.dfs(board,i-1,j,state+c)
+            self.dfs(board,i,j-1,state+c)
+            board[i][j]=c 
+        return 
+            
+class Trie:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.root={}
+        self.end_of_words="#"
+        
+
+    def insert(self, word: str) -> None:
+        """
+        Inserts a word into the trie.
+        """
+        node=self.root
+        for c in word:
+            if c not in node:
+                node = node.setdefault(c,{})
+            else:
+                node = node[c]
+        node[self.end_of_words]=self.end_of_words
+        
+
+    def search(self, word: str) -> bool:
+        """
+        Returns if the word is in the trie.
+        """
+        node=self.root
+        for c in word:
+            if c not in node:
+                return False
+            else:
+                node = node[c]
+        if self.end_of_words in node:
+            return True
+        else:
+            return False
+
+    def startsWith(self, prefix: str) -> bool:
+        """
+        Returns if there is any word in the trie that starts with the given prefix.
+        """
+        node=self.root
+        for c in prefix:
+            if c not in node:
+                return False
+            else:
+                node = node[c]
+        return True

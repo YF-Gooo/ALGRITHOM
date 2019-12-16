@@ -131,3 +131,49 @@ class Solution:
             else:
                 break
         return digits
+
+
+# 56. Merge Intervals https://leetcode.com/problems/merge-intervals/
+# Input: [[1,3],[2,6],[8,10],[15,18]]
+# Output: [[1,6],[8,10],[15,18]]
+# Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        out = []
+        for i in sorted(intervals, key=lambda i: i[0]):
+            if out and i[0] <= out[-1][1]:
+                out[-1][1] = max(out[-1][1], i[1])
+            else:
+                out += i,
+        return out
+
+
+# 57. Insert Interval https://leetcode.com/problems/insert-interval/
+# Input: intervals = [[1,3],[6,9]], newInterval = [2,5]
+# Output: [[1,5],[6,9]] 
+def insert(self, intervals, newInterval):
+        """
+        :type intervals: List[List[int]]
+        :type newInterval: List[int]
+        :rtype: List[List[int]]
+        """
+        stack = []
+        for i in range(len(intervals) - 1, -1, -1):
+            stack.append(intervals[i])
+            
+        res = []
+        while stack:
+            cur_interval = stack.pop()
+            # Left ouf of bounds
+            if cur_interval[0] > newInterval[1]:
+                res.append(newInterval)
+                # Update newInterval to be cur_interval to ensure we always come into this condition because there is no more merging that will happen after newInterval has been appended so we keep appending the previous interval
+                newInterval = cur_interval
+            # Right out of bounds
+            elif cur_interval[1] < newInterval[0]:
+                res.append(cur_interval)
+            else:
+                newInterval = [min(cur_interval[0], newInterval[0]), max(cur_interval[1], newInterval[1])]
+        # Append the last interval which will be the fully merged newInterval or the last cur_interval from the last iteration
+        res.append(newInterval)
+        return res

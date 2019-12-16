@@ -1,0 +1,18 @@
+"""
+197. Rising Temperature https://leetcode.com/problems/rising-temperature/
+Given a Weather table, write a SQL query to find all dates' Ids with higher temperature compared to its previous (yesterday's) dates.
++---------+------------------+------------------+
+| Id(INT) | RecordDate(DATE) | Temperature(INT) |
++---------+------------------+------------------+
+|       1 |       2015-01-01 |               10 |
+|       2 |       2015-01-02 |               25 |
+|       3 |       2015-01-03 |               20 |
+|       4 |       2015-01-04 |               30 |
++---------+------------------+------------------+
+# Write your MySQL query statement below
+"""
+select w2.id
+from weather w1,
+weather w2
+where w2.temperature > w1.temperature
+and DATEDIFF(w2.recorddate, w1.recorddate) = 1;
