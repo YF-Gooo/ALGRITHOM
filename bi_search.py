@@ -243,3 +243,91 @@ class Solution:
                 heapq.heappush(heap,(matrix[i][j+1],i,j+1))
         return res
 
+# 162. Find Peak Elementhttps://leetcode.com/problems/find-peak-element/
+# Input: nums = [1,2,3,1]
+# Output: 2
+# Explanation: 3 is a peak element and your function should return the index number 2.
+
+
+class Solution:
+    def findPeakElement(self, nums: List[int]) -> int:
+        return self.peak_helper(nums,0,len(nums)-1)
+    
+    def peak_helper(self,nums,start,end):
+        if start==end:
+            return start
+        if (start+1)==end:
+            if nums[start]>nums[end]:
+                return start
+            return end
+        mid = (start+end)//2
+        if nums[mid]>nums[mid-1] and nums[mid]>nums[mid+1]:
+            return mid
+        if nums[mid-1]>nums[mid] and nums[mid]>nums[mid+1]:
+            return self.peak_helper(nums,start,mid-1)
+        return self.peak_helper(nums,mid+1,end)
+
+# 排序：找出第k大的数字 https://leetcode.com/problems/kth-largest-element-in-an-array/description/
+# 快速选择
+def partition(arr,low,high): 
+    i = low-1         # 最小元素索引
+    pivot = arr[high]     
+    for j in range(low , high): 
+        # 当前元素小于或等于 pivot 
+        if   arr[j] <= pivot: 
+            i = i+1 
+            arr[i],arr[j] = arr[j],arr[i] 
+    arr[i+1],arr[high] = arr[high],arr[i+1] 
+    return i+1
+
+def quickSort(arr,low,high): 
+    if low < high: 
+        pi = partition(arr,low,high) 
+        quickSort(arr, low, pi-1) 
+        quickSort(arr, pi+1, high)
+
+# 解法O(n) 测试结果1876 ms，16.3 MB
+class Solution(object):
+    def partition(self,arr,low,high):
+        i=low-1
+        pivot=arr[high]
+        for j in range(low,high):
+            if arr[j]<=pivot:
+                i=i+1
+                arr[i],arr[j]=arr[j],arr[i]
+        arr[i+1],arr[high]=arr[high],arr[i+1]
+        return i+1
+    
+    def helper(self,arr,low,high,k):
+        p=self.partition(arr,low,high)
+        if p+1==k:
+            return arr[p]
+        if p+1>k:
+            return self.helper(arr,low,p-1,k)
+        else:
+            return self.helper(arr,p+1,high,k)
+        
+    def findKthLargest(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        k=len(nums)-k+1
+        return self.helper(nums,0,len(nums)-1,k)
+
+# 解法O(nlogk) 虽然测试下来是48ms，12.4 MB我怀疑用了c++的库
+from heapq import * 
+class Solution(object):            
+    def findKthLargest(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        heap=nums[:k]
+        heapify(heap)
+        for n in nums[k:]:
+            if heap[0]<n:
+                heapreplace(heap, n) #pop出最小的，push进新的元素
+        return heap[0] #heap[0]为最小元素

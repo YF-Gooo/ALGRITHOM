@@ -1,14 +1,14 @@
 
+class ListNode:
+    def __init__(self,value):
+        self.value=value
+        self.next=None
+
 def reverse_linklist(head):
     pre,cur=None,head
     while cur:
         cur.next,pre,cur= pre, cur, cur.next
     return pre
-
-class ListNode:
-    def __init__(self,value):
-        self.value=value
-        self.next=None
 
 def reverse_linklist_pairs(head):
     pre=ListNode(0)
@@ -67,7 +67,7 @@ class Solution:
         return res
                         
 # 第一周
-# 排序排序
+# 归并排序
 def MergerSort(lists):
     if len(lists)<=1:
         return lists
@@ -88,6 +88,10 @@ def Merge(left,right):
             r+=1
     result+=list(left[l:])
     result+=list(right[r:])
+    return result
+
+
+    
 
 
 # 双指针(题号：167)：https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/
@@ -771,6 +775,7 @@ class Solution(object):
         for _ in range(2,n+1):
             a,b=b,a+b
         return b
+
 # 矩阵路径（64）：https://leetcode.com/problems/minimum-path-sum/description/
 # Input:
 # [
@@ -795,6 +800,7 @@ class Solution:
                     continue
                 dp[i][j]=min(dp[i-1][j],dp[i][j-1])+grid[i-1][j-1]
         return dp[-1][-1]
+        
 # 数组区间（303）：https://leetcode.com/problems/range-sum-query-immutable/description/
 class NumArray:
     def __init__(self, nums: List[int]):

@@ -366,6 +366,17 @@ class Solution:
                     matrix[i][j]=max(matrix[i-1][j],matrix[i][j-1])
         return result
 
+
+# Max Sum of subarray:
+l=[-2,1,-3,4,-1,2,1,-5]
+def sum_subarray(l):
+    gobal_max=0
+    local_max=0
+    for i,ll in enumerate(l):
+        local_max=max(local_max+ll,0)
+        gobal_max=max(local_max,gobal_max)
+    return gobal_max
+
 # 最长递增子序列（300）：https://leetcode.com/problems/longest-increasing-subsequence/description/
 # 可以不连续
 # O(n^2)解法
