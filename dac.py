@@ -31,3 +31,4 @@ class Solution:
             return 0
         sorted_list, count_of_reverse_pair = self.merge_sort_with_rev_pair_count( nums )
         return count_of_reverse_pair
+

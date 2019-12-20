@@ -221,7 +221,7 @@ def partiton(nums,low,high):
         if nums[j]<=pivot:
             i+=1
             nums[i],nums[j]=nums[i],nums[j]
-    nums[i+1],nums[pivot]=nums[pivot],nums[i+1]
+    nums[i+1],nums[high]=nums[high],nums[i+1]
     return i+1
 
 def mergesort(nums):
@@ -250,4 +250,61 @@ def merge(left,right):
 
 
     
+def merge_sort(nums):
+    if not nums:
+        return nums
+    low=0
+    high=len(nums)
+    mid=low+(high-low)//2
+    left=merge_sort(nums[:mid])
+    right=merge_sort(nums[mid:])
+    return merge(left,right)
+
+def merge(left,right):
+    result=[]
+    i=j=0
+    while(i<len(left) and j<len(right)):
+        if left[i] <=right[j]:
+            result.append(left[i])
+            i+=1
+        else:
+            result.append(right[j])
+            j+=1
+    result+=left[i:]
+    result+=right[j:]
+    return result
+
+def quicksort(nums,left,right):
+    if left<right:
+        pi= partiton(nums,left,right)
+        quicksort(nums,left,pi-1)
+        quicksort(nums,pi+1,right)
     
+def partiton(nums,left,right):
+    i=left-1
+    pivot=nums[right]
+    for j in range(left,right):
+        if nums[i]<=nums[j]:
+            i+=1
+            nums[i],nums[j]=nums[j],nums[i]
+    nums[i+1],nums[right]=nums[right],nums[i+1]
+    return i+1
+
+
+def reverse(head):
+    pre=None
+    cur=head
+    while cur:
+        cur.next,pre,cur=pre,cur,cur.next
+    return pre
+
+def reverse2(head):
+    dummy=ListNode(0)
+    pre=dummy
+    pre.next=head
+    while pre and pre.next:
+        a= pre.next 
+        b= a.next
+        pre.next,b.next,a.next,=b,a,b.next
+        pre=a
+    return dummy
