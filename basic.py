@@ -64,6 +64,7 @@ def invalid(s):
         elif not stack or paren_map[c]!=stack.pop():
             return False
     return not stack
+    
 # sqrt
 class Solution(object):
     def mySqrt(self, x):
