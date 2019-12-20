@@ -1,6 +1,7 @@
-def quicksort(nums, low,high):
+def quicksort(nums):
     if len(nums)<=1:
         return nums
+    low=
     pi=partiton(nums,low,high)
     quicksort(nums[low,pi-1])
     quciksort(nums[pi+1,high])
@@ -204,3 +205,49 @@ class Trie:
             else:
                 return False
         return True
+
+def quicksort(nums,low,high):
+    if low <high:
+        pi = partiton(nums,low,high)
+        quicksort(nums,low,pi-1)
+        quicksort(nums,pi+1,high)
+
+def partiton(nums,low,high):
+    if len(nums)<=1:
+        return
+    i=low-1
+    pivot=nums[high]
+    for j in range(low,high):
+        if nums[j]<=pivot:
+            i+=1
+            nums[i],nums[j]=nums[i],nums[j]
+    nums[i+1],nums[pivot]=nums[pivot],nums[i+1]
+    return i+1
+
+def mergesort(nums):
+    if len(nums)<=1:
+        return nums
+    mid=len(nums)//2
+    left=mergesort(nums[:mid])
+    right=mergesort(nums[mid:])
+    return merge(left,right)
+
+
+def merge(left,right):
+    result=[]
+    i=j=0
+    while (i<len(left) and j<len(right)):
+        if left[i]<=right[j]:
+            result.append(left[i])
+            i+=1
+        else left[i]>right[j]:
+            result.append(right[j])
+            j+=1
+    result+=list(left[i:])
+    result+=list(right[j:])
+    return result
+            
+
+
+    
+    

@@ -64,6 +64,49 @@ def invalid(s):
         elif not stack or paren_map[c]!=stack.pop():
             return False
     return not stack
+# sqrt
+class Solution(object):
+    def mySqrt(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        left,right=1,x
+        while left<=right:
+            mid = left+(right-left)//2
+            if x//mid==mid:
+                return mid
+            elif x//mid>mid:
+                left=mid+1
+            else:
+                right=mid-1
+        return right  #返回较小的
+
+# 50. Pow(x, n) https://leetcode.com/problems/powx-n/
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n==0:
+            return 1
+        if n<=0:
+            return 1/self.myPow(x,-n)
+        if n%2:
+            return x*self.myPow(x,n-1)
+        return self.myPow(x*x,n/2)
+
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n<=0:
+            return 1/self.helper(x,-n)
+        return self.helper(x,n)
+    
+    def helper(self,x:float,n:int)->float:
+        pow=1
+        while n:
+            if n&1:
+                pow*=x
+            x*=x
+            n>>=1
+        return pow
 
 # 荷兰国旗问题（题号：75）：https://leetcode.com/problems/sort-colors/description/
 class Solution(object):
@@ -202,50 +245,6 @@ class Solution:
                     r-=1
         return res
 
-# sqrt
-class Solution(object):
-    def mySqrt(self, x):
-        """
-        :type x: int
-        :rtype: int
-        """
-        left,right=1,x
-        while left<=right:
-            mid = left+(right-left)//2
-            if x//mid==mid:
-                return mid
-            elif x//mid>mid:
-                left=mid+1
-            else:
-                right=mid-1
-        return right  #返回较小的
-
-# 50. Pow(x, n) https://leetcode.com/problems/powx-n/
-class Solution:
-    def myPow(self, x: float, n: int) -> float:
-        if n==0:
-            return 1
-        if n<=0:
-            return 1/self.myPow(x,-n)
-        if n%2:
-            return x*self.myPow(x,n-1)
-        return self.myPow(x*x,n/2)
-
-class Solution:
-    def myPow(self, x: float, n: int) -> float:
-        if n<=0:
-            return 1/self.helper(x,-n)
-        return self.helper(x,n)
-    
-    def helper(self,x:float,n:int)->float:
-        pow=1
-        while n:
-            if n&1:
-                pow*=x
-            x*=x
-            n>>=1
-        return pow
-
 # 378. Kth Smallest Element in a Sorted Matrix //leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/description/
 import heapq
 class Solution:
@@ -357,3 +356,38 @@ class Trie:
             else:
                 node = node[c]
         return True
+
+# 66. Plus One https://leetcode.com/problems/plus-one/
+# Input: [1,2,3]
+# Output: [1,2,4]
+# Explanation: The array represents the integer 123.
+# 妙哉
+class Solution:
+    def plusOne(self, digits: List[int]) -> List[int]:
+        if len(digits)==0:
+            return False
+        addCarry=1
+        for i in range(len(digits)-1,-1,-1):
+            digits[i]+=addCarry
+            if digits[i]==10:
+                digits[i]=0
+                if i==0:
+                    digits.insert(0,1)
+            else:
+                break
+        return digits
+
+# 进制转换：https://leetcode.com/problems/base-7/description/
+class Solution:
+    def convertToBase7(self, num: int) -> str:
+          ans = ""
+          if num == 0:
+              return '0'
+          x = abs(num)
+          while(x > 0):
+              ans += str(x%7)
+              x //= 7
+          if (num > 0):
+              return ans[::-1]
+          else:
+              return '-' + ans[::-1]

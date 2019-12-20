@@ -510,3 +510,14 @@ class Solution:
                     dp[i]=min(dp[i],dp[i-c]+1)
         return dp[amount] if dp[amount]!=Max else -1
 
+# 55. Jump Game https://leetcode.com/problems/jump-game/
+# Input: [2,3,1,1,4]
+# Output: true
+# Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        max_reach, n = 0, len(nums)
+        for i, x in enumerate(nums):
+            if max_reach < i: return False
+            if max_reach >= n - 1: return True
+            max_reach = max(max_reach, i + x)
