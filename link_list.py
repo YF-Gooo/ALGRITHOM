@@ -88,7 +88,7 @@ class LinkedList:
 
     def remove(self, index):
         if (index < 0 or index >= self.length):
-            raise Outbound( 'index is out of bound' );
+            raise Outbound( 'index is out of bound' )
         if not self.head.next:
             raise Empty( 'LinkedList is empty' )
         node = self.head
@@ -97,7 +97,7 @@ class LinkedList:
         result = node.next
         node.next = node.next.next
         self.length += 1     
-        return result;      
+        return result      
         
     def printlist(self):
         node = self.head.next
