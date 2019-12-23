@@ -194,6 +194,7 @@ class Solution(object):
             hashmap[n]+=1
         return [x[0] for x in sorted(hashmap.items(),key=lambda x:x[1],reverse=True)[:k]]
 
+
 # 荷兰国旗问题（题号：75）：https://leetcode.com/problems/sort-colors/description/
 class Solution(object):
     def sortColors(self, nums):
@@ -203,18 +204,17 @@ class Solution(object):
         """
         i,j=0,len(nums)-1
         n=0
-        while(n<=j):
+        while n<=j:
             if nums[n]==0:
-                nums[n],nums[i]=nums[i],nums[n]
-                i=i+1
+                nums[i],nums[n]=nums[n],nums[i]
                 n+=1
-            if nums[n]==1:
+                i+=1
+            elif nums[n]==1:
                 n+=1
-                continue
-            if nums[n]==2:
+            else :
                 nums[n],nums[j]=nums[j],nums[n]
-                j=j-1
-                continue
+                j-=1
+        return nums
 
 # 贪心（题号：455）：https://leetcode.com/problems/assign-cookies/description/
 class Solution(object):
@@ -637,6 +637,15 @@ class Solution:
 
 
 # 二分图（785）：https://leetcode.com/problems/is-graph-bipartite/description/
+# Example 1:
+# Input: [[1,3], [0,2], [1,3], [0,2]]
+# Output: true
+# Explanation: 
+# The graph looks like this:
+# 0----1
+# |    |
+# |    |
+# 3----2
 # 需要重点看看
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
@@ -689,6 +698,9 @@ class Solution:
 
 
 # BFS（279）：https://leetcode.com/problems/perfect-squares/description/
+# Input: n = 12
+# Output: 3 
+# Explanation: 12 = 4 + 4 + 4.
 class Solution:
     def numSquares(self, n: int) -> int:
         max_num = int(n ** 0.5) 
@@ -802,6 +814,10 @@ class Solution:
         return dp[-1][-1]
         
 # 数组区间（303）：https://leetcode.com/problems/range-sum-query-immutable/description/
+# Given nums = [-2, 0, 3, -5, 2, -1]
+# sumRange(0, 2) -> 1
+# sumRange(2, 5) -> -1
+# sumRange(0, 5) -> -3
 class NumArray:
     def __init__(self, nums: List[int]):
         t=0
@@ -879,7 +895,11 @@ class Solution:
                 j = bisect.bisect_left(incr, nums[i])
                 incr[j] = nums[i]
         return len(incr)
+
 # 0-1 背包（416）：https://leetcode.com/problems/partition-equal-subset-sum/description/
+# Input: [1, 5, 11, 5]
+# Output: true
+# Explanation: The array can be partitioned as [1, 5, 5] and [11].
 # 重点复习
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
@@ -896,9 +916,9 @@ class Solution:
             dp[0][j]=False
         for i in range(1,n+1):
             for j in range(1,s+1):
-                dp[i][j]=dp[i-1][j]
+                dp[i][j]=dp[i-1][j] #如果钱i-1个数字已经有办法构成j，那我们就没必要用第i个数字了
                 if j >=nums[i-1]:
-                    dp[i][j]=dp[i][j] or dp[i-1][j-nums[i-1]]
+                    dp[i][j]=dp[i][j] or dp[i-1][j-nums[i-1]] #如果钱i-1个数字无法构成j，那如果我们加入第i个数字并且dp[i-1,j-nums[i-1]]为True说明dp[i][j]也为true
         return dp[n][s]
 
 class Solution:

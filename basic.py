@@ -6,7 +6,6 @@ class Node:
 class LinkedList:
     def __init__(self):
         self.head = Node()
-        self.tail = None
         self.length = 0
 
     def get_first(self):
@@ -24,7 +23,7 @@ class LinkedList:
     
     def get(self, index):
         if (index < 0 or index >= self.length):
-            raise Outbound( 'index is out of bound' );
+            raise Outbound( 'index is out of bound' )
         if not self.head.next:
             raise Empty( 'LinkedList is empty' )
         node = self.head
@@ -112,6 +111,7 @@ def  binarysearch(alist,item):
         return right
     return -1
 
+    
 # 反转链表
 def reverse_linklist(head):
     pre,cur=None,head
@@ -120,16 +120,22 @@ def reverse_linklist(head):
     return pre
 
 # 成对反转
-def reverse_linklist_pairs(head):
-    pre=ListNode(0)
-    pre.next=head
-    dummy=pre
-    while pre and pre.next:
-        a = pre.next
-        b = a.next
-        pre.next, b.next , a.next= b, a ,b.next
-        pre = a 
-    return dummy
+# 24. Swap Nodes in Pairs https://leetcode.com/submissions/detail/263130900/
+class Solution(object):
+    def swapPairs(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        dummy=ListNode(0)
+        pre=dummy
+        pre.next=head
+        while pre.next and pre.next.next:
+            a=pre.next
+            b=a.next
+            pre.next,b.next,a.next=b,a,b.next
+            pre=a
+        return dummy.next
 
 # 链表有环
 class Solution(object):
@@ -141,13 +147,26 @@ class Solution(object):
         if head==None:
             return False
         fast=slow=head
-        while slow and fast and fast.next:
+        while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
             if slow is fast:
                 return True
         return False
-
+        
+# 如何找环的入口点：
+# p每次走一步，q每次走两步，q的速度是p的两倍。
+# 假设链表的长度为L+S， 其中L是链表起点到环起点的距离，S是环的长度，
+# 假设快指针和慢指针在环内相遇的时候，慢指针在环内已经走了x步，总共走了y步，
+# 那么快指针总共走了2y步。设相遇时快指针在环内已经走了n圈，则:
+# 　　　　　　　　　　　　　　　　　　2y=y+nS
+# 得y=nS,y是慢指针所走过的总步数，它由链表起点到环起点的距离L和p在环内走的步数组成:
+# 　　　　　　　　　　　　　　　　　　y=L+x
+# 变形得：L+x=nS=(n-1)S+S
+# 得：L=（n-1)S+S-x。     
+# 其中S-x相当于慢指针从相遇点继续走到环入口的距离，因此将两个指针设置为慢指针，
+# 一个从链表头开始走，一个从相遇点开始走。环内的指针走过S-x距离，再走n-1圈。
+# 两指针就会在环入口相遇。
 # 是否为有效括号组合
 def invalid(s):
     stack=[]
@@ -212,18 +231,17 @@ class Solution(object):
         """
         i,j=0,len(nums)-1
         n=0
-        while(n<=j):
+        while n<=j:
             if nums[n]==0:
-                nums[n],nums[i]=nums[i],nums[n]
-                i=i+1
+                nums[i],nums[n]=nums[n],nums[i]
                 n+=1
-            if nums[n]==1:
+                i+=1
+            elif nums[n]==1:
                 n+=1
-                continue
-            if nums[n]==2:
+            else :
                 nums[n],nums[j]=nums[j],nums[n]
-                j=j-1
-                continue
+                j-=1
+        return nums
 
 # 归并排序
 def MergerSort(lists):

@@ -58,6 +58,21 @@ class Solution:
                 left[1]+right[1]
                )
         return [yes,no]
+        
+# 分割整数（343）：https://leetcode.com/problems/integer-break/description/
+# Input: 10
+# Output: 36
+# Explanation: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36.
+# dfs法+memory，超时了
+# dp:
+class Solution:
+    def integerBreak(self, n: int) -> int:
+        f=[0 for i in range(n+1)]
+        f[2]=1
+        for i in range(3,n+1):
+            for j in range(1,i//2+1):
+                f[i]=max(f[i],max(f[j],j)*max(f[i-j],i-j))
+        return f[n]
 
 # 746. Min Cost Climbing Stairs https://leetcode.com/problems/min-cost-climbing-stairs/
 class Solution:
@@ -325,9 +340,9 @@ class Solution:
             dp[0][j]=False
         for i in range(1,n+1):
             for j in range(1,s+1):
-                dp[i][j]=dp[i-1][j]
+                dp[i][j]=dp[i-1][j] #如果钱i-1个数字已经有办法构成j，那我们就没必要用第i个数字了
                 if j >=nums[i-1]:
-                    dp[i][j]=dp[i][j] or dp[i-1][j-nums[i-1]]
+                    dp[i][j]=dp[i][j] or dp[i-1][j-nums[i-1]] #如果钱i-1个数字无法构成j，那如果我们加入第i个数字并且dp[i-1,j-nums[i-1]]为True说明dp[i][j]也为true
         return dp[n][s]
 
 class Solution:

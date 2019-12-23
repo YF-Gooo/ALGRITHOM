@@ -1,6 +1,3 @@
-from util.Empty import Empty
-from util.Outbound import Outbound
-
 class Node:
     def __init__ (self, value = None, next = None):
         self.value = value
@@ -9,13 +6,7 @@ class Node:
 class LinkedList:
     def __init__(self):
         self.head = Node()
-        self.tail = None
         self.length = 0
-
-    def peek(self):
-        if not self.head.next:
-            raise Empty( 'LinkedList is empty' )
-        return self.head.next
 
     def get_first(self):
         if not self.head.next:
@@ -35,10 +26,10 @@ class LinkedList:
             raise Outbound( 'index is out of bound' );
         if not self.head.next:
             raise Empty( 'LinkedList is empty' )
-        node = self.head.next
+        node = self.head
         for i in range(index):
             node = node.next
-        return node
+        return node.next
                 
     def add_first(self, value):
         node = Node(value, None)
@@ -96,17 +87,8 @@ class LinkedList:
             node = node.next
         result = node.next
         node.next = node.next.next
-        self.length += 1     
+        self.length -= 1     
         return result      
-        
-    def printlist(self):
-        node = self.head.next
-        count = 0
-        while node and count<20:
-            print(node.value, end = " ")
-            node = node.next
-            count = count + 1
-        print('')
     
 # 反转链表
 def reverse_linklist(head):

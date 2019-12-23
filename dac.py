@@ -1,3 +1,24 @@
+# 分治（题号：241）：https://leetcode.com/problems/different-ways-to-add-parentheses/description/
+class Solution:
+    def diffWaysToCompute(self, input: str) -> List[int]:
+        if input.isdigit():
+            return [int(input)]
+        
+        ans = []
+        for i, c in enumerate(input):
+            if not c.isdigit():
+                l = self.diffWaysToCompute(input[0:i])
+                r = self.diffWaysToCompute(input[i+1:])
+                for l1 in l:
+                    for r1 in r:
+                        if c == '+':
+                            ans.append(l1 + r1)
+                        elif c == '-':
+                            ans.append(l1 - r1)
+                        elif c == '*':
+                            ans.append(l1 * r1)
+        return ans
+        
 # hard 可以跳过 493. Reverse Pairs https://leetcode.com/problems/reverse-pairs/
 # 用了归并排序，可以说是相当巧妙了
 class Solution:
