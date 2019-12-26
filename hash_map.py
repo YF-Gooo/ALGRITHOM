@@ -1,3 +1,36 @@
+# 860. Lemonade Change https://leetcode.com/problems/lemonade-change/
+# Input: [5,5,5,10,20]
+# Output: true
+# Explanation: 
+# From the first 3 customers, we collect three $5 bills in order.
+# From the fourth customer, we collect a $10 bill and give back a $5.
+# From the fifth customer, we give a $10 bill and a $5 bill.
+# Since all customers got correct change, we output true.
+class Solution:
+	def lemonadeChange(self, bills: List[int]) -> bool:
+
+		collected = {
+			5: 0,
+			10: 0
+		}
+		for bill in bills:      # for every customer
+			if bill == 5:       # when get 5 just add one 5
+				collected[5] += 1
+			elif bill == 10:        # when get 10, add on 10 and less one 5
+				collected[5] -= 1
+				collected[10] += 1
+			else:       # when get 20, you don't have to add it
+				if collected[10] > 0:
+					collected[10] -= 1
+					collected[5] -= 1
+				else:
+					collected[5] -= 3       # you have to give back 15 in case of 20
+
+			if collected[5] < 0:        # only 5 might be negative, and when it is it means you didn't have change
+				return False        # so return false
+
+		return True     # when all bills pass it means we made it
+
 # https://leetcode.com/problems/word-pattern/
 # Example 1:
 # Input: pattern = "abba", str = "dog cat cat dog"

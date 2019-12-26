@@ -1,2 +1,3 @@
 # ALGRITHOM
 leetcode算法
+本项目主要为了面试刷算法，整理出了各个类别常见常考的leetcode题目
