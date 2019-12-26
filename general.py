@@ -270,6 +270,7 @@ class Solution(object):
             else:
                 right=mid-1
         return right  #返回较小的
+        
 # 50. Pow(x, n) https://leetcode.com/problems/powx-n/
 class Solution:
     def myPow(self, x: float, n: int) -> float:

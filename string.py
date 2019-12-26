@@ -28,22 +28,15 @@ class Solution(object):
 # Explanation: The answer is "abc", with the length of 3.   
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-            memo = {}
-            left = 0
-            current_length = 0
-            longest_length = 0
-            for i, letter in enumerate(s):
-                if letter in memo:
-                    longest_length = max(current_length, longest_length)
-                    if memo[letter] >= left:
-                        left = memo[letter]
-                    memo[letter] = i
-                    current_length = i - left
-                else:
-                    current_length += 1
-                    memo[letter] = i
-            longest_length = max(current_length, longest_length)
-            return longest_length
+        start=maxlength=0
+        usedchar={}
+        for i,c in enumerate(s):
+            if c in usedchar and start<=usedchar[c]:
+                start=usedchar[c]+1
+            else:
+                maxlength=max(maxlength,i-start+1)
+            usedchar[c]=i
+        return maxlength
 
 # 392. Is Subsequence https://leetcode.com/problems/is-subsequence/
 # Example 1:
