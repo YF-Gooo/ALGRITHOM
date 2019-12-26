@@ -166,7 +166,7 @@ class Solution:
         if not fast:
             return head.next
         slow = head
-        while fast.next is not None:
+        while fast.next:
             fast = fast.next
             slow = slow.next
         

@@ -33,6 +33,7 @@ class Solution:
             if tempr.left:
                 s.append(tempr.left)
         return r
+        
 # 94. Binary Tree Inorder Traversal https://leetcode.com/problems/binary-tree-inorder-traversal/
 class Solution:
     def inorderTraversal(self, root: TreeNode) -> List[int]:

@@ -867,6 +867,7 @@ class Solution:
             for j in range(1,i//2+1):
                 f[i]=max(f[i],max(f[j],j)*max(f[i-j],i-j))
         return f[n]
+        
 # 最长递增子序列（300）：https://leetcode.com/problems/longest-increasing-subsequence/description/
 # 可以不连续
 # O(n^2)解法
@@ -881,6 +882,7 @@ class Solution:
                     if dp[j] > largest: 
                         largest = dp[j]
         return largest 
+
 # O(nlogn)解法
 import bisect
 class Solution:

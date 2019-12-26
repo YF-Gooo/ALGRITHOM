@@ -28,8 +28,8 @@ class Solution:
         return max(self.helper(nums,0,len(nums)-1),self.helper(nums,1,len(nums)))
     
     def helper(self, nums,s,e):
-        yes,no=nums[s],0
-        for i in nums[s+1:e]:
+        yes,no=0,0
+        for i in nums[s:e]:
             no,yes=max(yes,no),no+i
         return max(no,yes)
 
@@ -129,6 +129,7 @@ class Solution:
                 dp[i]+=dp[left]*dp[i-1-left]
         return dp[n]
 
+
 # 股票
 # 121. Best Time to Buy and Sell Stock https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
 # 只能买卖一次
@@ -199,12 +200,10 @@ class Solution:
         l=len(prices)
         hold = [[-float("inf") for _ in range(k+1)] for _ in range(l+1)]
         cash = [[0 for _ in range(k+1)] for _ in range(l+1)]
-        print(hold[0])
         for i in range(1,l+1):
             for j in range(1, k+1):
                 cash[i][j] = max(cash[i-1][j], hold[i-1][j]+prices[i-1])
                 hold[i][j] = max(hold[i-1][j], cash[i-1][j-1]-prices[i-1])
-        print(hold[0])
         return cash[-1][k]
         
 class Solution:
@@ -287,7 +286,12 @@ def movingBoard(board):
     return max(result[-1])
 
 # 221. Maximal Square https://leetcode.com/problems/maximal-square/
-
+# Input: 
+# 1 0 1 0 0
+# 1 0 1 1 1
+# 1 1 1 1 1
+# 1 0 0 1 0
+# Output: 4
 class Solution:
     def maximalSquare(self, matrix: List[List[str]]) -> int:
         if not matrix:
@@ -312,18 +316,23 @@ W=5
 n=len(val)
 def knapsack(W,wt,val,n):
     K=[[0 for x in range(W+1)] for x in range(n+1)]
-    for i in range(n+1):
-        for w in range(W+1):
-            if i == 0 or w == 0:
-                K[i][w] = 0
-            elif wt[i-1]<=w:
-                K[i][w] = max(val[i-1+K[i-1][w-wt[i-1]]],K[i-1][w])
+    for i in range(1,n+1):
+        for w in range(1,W+1):
+            if wt[i-1]<=w:
+                # 若i-1无法行成w,但是可以形成w-wt[i-1]
+                # val[i-1]+K[i-1][w-wt[i-1]]
+                K[i][w] = max(val[i-1]+K[i-1][w-wt[i-1]],K[i-1][w])
             else:
-                K[i][w]=K[i-1][w]
+                K[i][w] = K[i-1][w]
     return K[n][W]
 
 
 # 0-1 背包（416）：https://leetcode.com/problems/partition-equal-subset-sum/description/
+# Input: [1, 5, 11, 5]
+
+# Output: true
+
+# Explanation: The array can be partitioned as [1, 5, 5] and [11].
 # 重点复习
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
@@ -340,7 +349,7 @@ class Solution:
             dp[0][j]=False
         for i in range(1,n+1):
             for j in range(1,s+1):
-                dp[i][j]=dp[i-1][j] #如果钱i-1个数字已经有办法构成j，那我们就没必要用第i个数字了
+                dp[i][j]=dp[i-1][j] #如果前i-1个数字已经有办法构成j，那我们就没必要用第i个数字了
                 if j >=nums[i-1]:
                     dp[i][j]=dp[i][j] or dp[i-1][j-nums[i-1]] #如果钱i-1个数字无法构成j，那如果我们加入第i个数字并且dp[i-1,j-nums[i-1]]为True说明dp[i][j]也为true
         return dp[n][s]
@@ -399,7 +408,7 @@ class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
         if not nums: return 0 
         dp, largest = [1] * len(nums), 1
-        for j in range(len(nums)):
+        for j in range(1,len(nums)):
             for i in range(0, j):
                 if nums[i] < nums[j] and dp[i]+1 > dp[j]:
                     dp[j] = dp[i] + 1
@@ -499,6 +508,12 @@ class Solution(object):
             return dp[-1][-1]
 
 # 120. Triangle https://leetcode.com/problems/triangle/
+# [
+#      [2],
+#     [3,4],
+#    [6,5,7],
+#   [4,1,8,3]
+# ]
 class Solution:
     def minimumTotal(self, triangle: List[List[int]]) -> int:
         if not triangle:
@@ -533,6 +548,9 @@ class Solution:
     def canJump(self, nums: List[int]) -> bool:
         max_reach, n = 0, len(nums)
         for i, x in enumerate(nums):
-            if max_reach < i: return False
-            if max_reach >= n - 1: return True
+            if max_reach < i: 
+                return False
+            if max_reach >= n - 1: 
+                return True
             max_reach = max(max_reach, i + x)
+
