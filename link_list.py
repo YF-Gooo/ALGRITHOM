@@ -97,6 +97,34 @@ def reverse_linklist(head):
         cur.next,pre,cur= pre, cur, cur.next
     return pre
 
+class Solution(object):
+	def reverseList(self, head):
+		"""
+		:type head: ListNode
+		:rtype: ListNode
+		"""
+		pre = None
+		cur = head
+		while cur:
+			tmp = cur.next
+			cur.next = pre
+			pre = cur
+			cur = tmp
+		return pre	
+
+
+class Solution(object):
+	def reverseList(self, head):
+		"""
+		:type head: ListNode
+		:rtype: ListNode
+		"""
+		if(head==None or head.next==None):
+			return head
+		cur = self.reverseList(head.next)
+		head.next.next = head
+		head.next = None
+		return cur
 # 成对反转
 def reverse_linklist_pairs(head):
     pre=ListNode(0)

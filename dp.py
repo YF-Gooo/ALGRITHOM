@@ -392,14 +392,18 @@ class Solution:
 
 
 # Max Sum of subarray:
-l=[-2,1,-3,4,-1,2,1,-5]
-def sum_subarray(l):
-    gobal_max=0
-    local_max=0
-    for i,ll in enumerate(l):
-        local_max=max(local_max+ll,0)
-        gobal_max=max(local_max,gobal_max)
-    return gobal_max
+# https://leetcode-cn.com/problems/maximum-subarray/
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        presum=0
+        res=-float(inf)
+        for n in nums:
+            if presum<0:
+                presum=n
+            else:
+                presum=n+presum
+            res=max(presum,res)
+        return res
 
 # 最长递增子序列（300）：https://leetcode.com/problems/longest-increasing-subsequence/description/
 # 可以不连续
