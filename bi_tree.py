@@ -330,3 +330,30 @@ class Solution:
             return left
         else:
             return root
+
+# 124. 二叉树中的最大路径和
+# https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/
+class Solution:
+    def __init__(self):
+        self.res = float('-inf')
+
+    def maxPathSum(self, root: TreeNode) -> int:
+        self.dfs(root)
+        return self.res
+
+    def dfs(self,root):
+        if not root:
+            return float('-inf')
+        left_max = self.dfs(root.left)
+        right_max = self.dfs(root.right)
+        self.res = max(self.res, left_max+root.val, right_max+root.val, right_max+left_max+root.val, root.val)
+        return max(root.val, root.val+left_max, root.val+right_max)
+
+#二叉树节点个数
+class Solution:
+    def countNodes(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        l = self.countNodes(root.left)
+        r = self.countNodes(root.right)
+        return l + r + 1

@@ -184,7 +184,6 @@ class Solution:
         return self._generate_result(n)
         
     def dfs(self,raw,n,state):
-
         if raw>=n:
             self.result.append(state)
             return 
